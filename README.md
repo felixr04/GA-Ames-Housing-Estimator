@@ -1,186 +1,108 @@
-# Project 2 - Ames Housing Data and Kaggle Challenge
+# Rent Control Home Price Estimator: Iowa Policy Model
 
-Welcome to Project 2! It's time to start modeling.
+## Project Overview
 
-**Primary Learning Objectives:**
+This project aims to create a **home price estimator model** to support rent control policy development in Iowa. The goal is to provide policymakers with an **accurate, interpretable, and cost-effective** model that can help set fair and balanced rental prices, benefiting both tenants and landlords. The model will help bridge the gap between affordable housing and reasonable profits for landlords, ensuring that rent control policies are based on real market data rather than speculation.
 
-1. Creating and iteratively refining a regression model
-1. Using [Kaggle](https://www.kaggle.com/) to practice the modeling process
-1. Providing business insights through reporting and presentation.
+### What if Public Officials Had the Power to Estimate Home Values?
 
-You are tasked with creating a regression model based on the Ames Housing Dataset. This model will predict the price of a house at sale.
+**Answer:** By using a home price estimator model, public officials can effectively bridge the gap between **too high** and **too low** rent controls.
 
-The Ames Housing Dataset is an exceptionally detailed and robust dataset with over 70 columns of different features relating to houses.
+- **Renters** pay fair rent that aligns with market conditions.
+- **Landlords** benefit from **lower tenant turnover**, as rental prices stay competitive and fair.
+- The model helps address the **housing crisis** by ensuring that rent control policies are grounded in data and lead to balanced, sustainable pricing.
 
-Secondly, we are hosting a competition on Kaggle to give you the opportunity to practice the following skills:
+This model brings clarity and transparency to the rent control debate, providing a solution that benefits all stakeholders—tenants, landlords, and citizens.
 
-- Refining models over time
-- Use of train-test split, cross-validation, and data with unknown values for the target to simulate the modeling process
-- The use of Kaggle as a place to practice data science
+## Problem Statement
 
-As always, you will be submitting a technical report and a presentation. **You may find that the best model for Kaggle is not the best model to address your data science problem.**
+In Iowa, rent control is a contentious issue. There is currently no rent control policy in place, but the debate centers around finding the right balance. A rent control floor that is too low can discourage housing supply and maintenance, while one that is too high can leave housing unaffordable for tenants. An **accurate home price estimator** can ground policies on **hard data** and create a transparent, effective model that appeals to voters, ultimately facilitating a rent control measure on the ballot.
 
-## Set-up
+## Project Objectives
 
-Before you begin working on this project, please do the following:
+- **Accurate Model**: Create a home price estimator that predicts housing prices based on various factors, with model accuracy measured by metrics like RMSE, R2 score, and MAE.
+- **Interpretable Model**: Ensure the model is transparent and can be easily understood by policymakers, voters, and stakeholders, fostering trust and confidence.
+- **Cost-Effective**: Design a model that relies on as little amount of features to implement, allowing voters to see the benefits without a heavy financial burden on the state.
 
-1. Sign up for an account on [Kaggle](https://www.kaggle.com/)
-2. **IMPORTANT**: Click this link ➡️ [Regression Challenge Sign Up](https://www.kaggle.com/t/28e1aed53a034944b56d8df3cccf1d3a) ⬅️ to **join** the competition (otherwise you will not be able to make submissions!)
-3. Review the material on the [DSB-210 Regression Challenge](https://www.kaggle.com/competitions/dsb-210-regression-challenge)
-4. Review the [data description](https://www.kaggle.com/competitions/dsb-210-regression-challenge/data).
-## The Modeling Process
+## Dataset Overview
 
-1. The train dataset has all of the columns that you will need to generate and refine your models. The test dataset has all of those columns except for the target that you are trying to predict in your Regression model.
-2. Generate your regression model using the training data. We expect that within this process, you'll be making use of:
-    - train-test split
-    - cross-validation / grid searching for hyperparameters
-    - strong exploratory data analysis to question correlation and relationship across predictive variables
-    - code that reproducibly and consistently applies feature transformation (such as the preprocessing library)
-3. Predict the values for your target column in the test dataset and submit your predictions to Kaggle to see how your model does against unknown data.
-    - **Note**: Kaggle expects to see your submissions in a specific format. Check the challenge's page to make sure you are formatting your CSVs correctly!
-    - **You are limited to models you've learned in class**. In other words, you cannot use XGBoost, Neural Networks or any other advanced model for this project.
-4. Evaluate your models!
-    - consider your evaluation metrics
-    - consider your baseline score
-    - how can your model be used for inference?
-    - why do you believe your model will generalize to new data?
+The dataset used for this project contains over 80 housing-related features from kaggle. Below you will find the data dictionary for the features used in my selected model.
 
-## Submission
 
-Materials must be submitted by the beginning of class on presentation day, **Friday, 3/7  @ 9 AM PT**.
+| Feature               | Type        | Dataset          | Description                                                                                               |
+|-----------------------|-------------|------------------|-----------------------------------------------------------------------------------------------------------|
+| overall_qual          | object     | <train_cleaned.csv>    | Overall quality rating of the house, typically on a scale from 1 (poor) to 10 (excellent).               |
+| age                   | int         | <train_cleaned.csv>    | The age of the house (in years) since it was built till it was sold.                                                      |
+| total_bath            | float         | <train_cleaned.csv>    | The total number of bathrooms in the house, including full and half bathrooms.                            |
+| total_sf              | float       | <train_cleaned.csv>    | The total square footage of the house.                                                                   |
+| totrms_abvgrd         | int         | <train_cleaned.csv>    | The total number of rooms above ground (does not include basement rooms).                                |
+| remodel_age           | int         | <train_cleaned.csv>    | Sale date minus remodel year.                                          |
+| fireplaces            | int         | <train_cleaned.csv>    | The number of fireplaces in the house.                                                                   |
+| neighborhood_<name>    | object      | <train_cleaned.csv>    | Binary indicator for the presence of the home in a specific neighborhood (e.g., 1 if in neighborhood, 0 if not). |
+| exter_qual            | object     | <train_cleaned.csv>    | The quality of the house's exterior, rated as "Ex" (excellent), "Gd" (good), "TA" (typical/average), "Fa" (fair), "Po" (poor). |
+| bsmt_qual             | object     | <train_cleaned.csv>    | The quality of the basement, rated as "Ex" (excellent), "Gd" (good), "TA" (typical/average), "Fa" (fair), "Po" (poor). |
+| sale_type             | object | <train_cleaned.csv>    | The type of sale, such as "WD" (Warranty Deed), "New" (New Construction), "COD" (Court Officer Deed), etc. |
+| functional            | object     | <train_cleaned.csv>    | The functionality of the house’s design, rated as "Typ" (typical), "Min1" (minor issues), "Min2" (major issues), "Maj1" (major issues), "Maj2" (more severe issues), or "Sev" (severe issues). |
+| exterior_1st          | object | <train_cleaned.csv>    | The primary exterior material of the house, such as "Vinyl", "Wood", "Cement", "Brick", etc.              |
+| garage_finish         | object     | <train_cleaned.csv>    | The finish quality of the garage, rated as "Fin" (finished), "RFn" (rough-finished), or "Unf" (unfinished). |
+| kitchen_qual          | object     | <train_cleaned.csv>    | The quality of the kitchen, rated as "Ex" (excellent), "Gd" (good), "TA" (typical/average), "Fa" (fair), or "Po" (poor). |
 
-The last day for the Kaggle competition will be **Friday, 3/7  @ 9 AM PT**.
 
-Your technical report will be hosted on Github Enterprise. Make sure it includes:
 
-- A README.md (that isn't this file).
-- Jupyter notebook(s) with your analysis and models (renamed to describe your project)
-- At least three successful prediction submissions on [DSB-210 Regression Challenge](https://www.kaggle.com/competitions/dsb-210-regression-challenge/overview) --  you should see your name in the "[Leaderboard](https://www.kaggle.com/competitions/dsb-210-regression-challenge/leaderboard)" tab.
-- Data files
-- Presentation slides
-- Any other necessary files (images, etc.)
+## Model Approach
 
-**Submit a link to your repo in Google Classroom.**
+1. **Exploratory Data Analysis (EDA)**:
+   - Visualizations: Correlation maps, box plots for categorical variables, and bar charts.
+   - Summary statistics to understand relationships between features and target prices.
 
----
+2. **Model Training and Evaluation**:
+   - We use regression models, including Linear Regression, Random Forest, and Gradient Boosting, to predict housing prices.
+   - Model performance is evaluated using metrics like RMSE, R2 score, and MAE to ensure accuracy.
 
-## Presentation Structure
+3. **Interpretability**:
+   - Feature importance analysis to understand which features contribute most to price predictions.
 
-- **Presentation should be between 5-8 minutes.**
-- Use Google Slides or some other visual aid (Keynote, Powerpoint, etc).
-- Consider your audience. 
-(This depends on your problem statement!)
-- Start with the **data science problem**.
-- Use visuals that are appropriately scaled and interpretable.
-- Talk about your procedure/methodology (high level).
-- Talk about your primary findings.
-- Make sure you provide **clear recommendations** that follow logically from your analyses and narrative and answer your data science problem.
-- [More presentation advice here!](https://git.generalassemb.ly/dsb-210/course-info/blob/main/presentation-advice.md)
+4. **Visualization**:
+   - **Correlation Heatmap**: Display the relationships between features and how they influence home prices.
+   - **Boxplots and Bar Charts**: Visualize distribution of prices across different neighborhoods, and identify trends.
+   - **Actual vs. Predicted Scatter Plot**: Compare predicted home prices to actual prices to visually assess the model's performance.
+   - **Model Performance Metrics**: RMSE, R2, MAE values.
 
-Be sure to rehearse and time your presentation before class.
+## Results
 
----
+The final model provides highly accurate price predictions and demonstrates **high transparency** through visualizations and interpretability tools.
 
-## Rubric
+- **Key Metrics**:
+  - RMSE: 26229.24420716645
+  - R2 Score: 0.8842091294065451
+  - MAE: 18230.364137750785
 
-Your local instructor will evaluate your project (for the most part) using the following criteria.  You should make sure that you consider and/or follow most if not all of the considerations/recommendations outlined below **while** working through your project.
+## Policy Implications
 
-**Scores will be out of 27 points based on the 9 items in the rubric.** 
-*3 points per section*
+This model will directly support the development of a rent control policy in Iowa by providing **clear evidence** of fair home prices across various neighborhoods. By using this model, policymakers can implement a rent control measure that benefits both tenants and landlords, ensuring affordable housing without stifling development or investment.
 
-| Score | Interpretation |
-| --- | --- |
-| **0** | *Project fails to meet the minimum requirements for this item.* |
-| **1** | *Project meets the minimum requirements for this item, but falls significantly short of portfolio-ready expectations.* |
-| **2** | *Project exceeds the minimum requirements for this item, but falls short of portfolio-ready expectations.* |
-| **3** | *Project meets or exceeds portfolio-ready expectations; demonstrates a thorough understanding of every outlined consideration.* |
+## Conclusion
 
-### The Data Science Process
+Our model is the most ideal tool to establish reasonable rent control thresholds in Iowa. It satisfies all the **successful metrics** for rent control policy development:
 
-**Problem Statement**
-- Is it clear what the student plans to do?
-- What type of model will be developed?
-- How will success be evaluated?
-- Is the scope of the project appropriate?
-- Is it clear who cares about this or why this is important to investigate?
-- Does the student consider the audience and the primary and secondary stakeholders?
+- **Interpretable**: The model provides transparency, allowing policymakers and voters to understand how it works and how it reaches its conclusions.
+- **Accurate**: The model is built to predict housing prices with high accuracy, ensuring that rent control policies are grounded in real, market-driven data.
+- **Cost-Effective**: The model is designed to be affordable to implement, making it a practical choice for policymakers looking to adopt rent control without significant financial burden.
 
-**Data Cleaning and EDA**
-- Are missing values imputed appropriately?
-- Are distributions examined and described?
-- Are outliers identified and addressed?
-- Are appropriate summary statistics provided?
-- Are steps taken during data cleaning and EDA framed appropriately?
-- Does the student address whether or not they are likely to be able to answer their problem statement with the provided data given what they've discovered during EDA?
+With this model in place:
 
-**Preprocessing and Modeling**
-- Are categorical variables one-hot encoded?
-- Does the student investigate or manufacture features with linear relationships to the target?
-- Have the data been scaled appropriately?
-- Does the student properly split and/or sample the data for validation/training purposes?
-- Does the student utilize feature selection to remove noisy or multi-collinear features?
-- Does the student test and evaluate a variety of models to identify a production algorithm **AT MINIMUM:** linear regression, and one model with regularizarion: (lasso, ridge, or elastic net)?
-- Does the student defend their choice of production model relevant to the data at hand and the problem?
-- Does the student explain how the model works and evaluate its performance successes/downfalls?
+- **Renters** pay **fair rent** that is in line with market conditions.
+- **Landlords** benefit from **lower tenant turnover**, as rental prices stay competitive and reasonable.
 
-**Evaluation and Conceptual Understanding**
-- Does the student accurately identify and explain the baseline score?
-- Does the student select and use metrics relevant to the problem objective?
-- Is more than one metric utilized in order to better assess performance?
-- Does the student interpret the results of their model for purposes of inference?
-- Is domain knowledge demonstrated when interpreting results?
-- Does the student provide appropriate interpretation with regards to descriptive and inferential statistics?
+By leveraging this model, Iowa can implement a rent control policy that balances the needs of both tenants and landlords while addressing the broader housing crisis.
 
-**Conclusion and Recommendations**
-- Does the student provide appropriate context to connect individual steps back to the overall project?
-- Is it clear how the final recommendations were reached?
-- Are the conclusions/recommendations clearly stated?
-- Does the conclusion answer the original problem statement?
-- Does the student address how findings of this research can be applied for the benefit of stakeholders?
-- Are future steps to move the project forward identified?
+## Next Steps
 
-### Organization and Professionalism
+1. **Model Improvement and Tuning**  
+   - **Hyperparameter Tuning:** Continue experimenting with various machine learning algorithms such as XGBoost, Random Forest, or Gradient Boosting, and optimize their hyperparameters to improve model performance.
+   - **Feature Selection:** Investigate the possibility of reducing the feature set through techniques like Recursive Feature Elimination (RFE) or feature importance methods to simplify the model while maintaining high accuracy.
 
-**Project Organization**
-- Are modules imported correctly (using appropriate aliases)?
-- Are data imported/saved using relative paths?
-- Does the README provide a good executive summary of the project?
-- Is markdown formatting used appropriately to structure notebooks?
-- Are there an appropriate amount of comments to support the code?
-- Are files & directories organized correctly?
-- Are there unnecessary files included?
-- Do files and directories have well-structured, appropriate, consistent names?
 
-**Visualizations**
-- Are sufficient visualizations provided?
-- Do plots accurately demonstrate valid relationships?
-- Are plots labeled properly?
-- Are plots interpreted appropriately?
-- Are plots formatted and scaled appropriately for inclusion in a notebook-based technical report?
-
-**Python Syntax and Control Flow**
-- Is care taken to write human readable code?
-- Is the code syntactically correct (no runtime errors)?
-- Does the code generate desired results (logically correct)?
-- Does the code follows general best practices and style guidelines?
-- Are Pandas functions used appropriately?
-- Are `sklearn` methods used appropriately?
-
-**Presentation**
-- Is the problem statement clearly presented?
-- Does a strong narrative run through the presentation building toward a final conclusion?
-- Are the conclusions/recommendations clearly stated?
-- Is the level of technicality appropriate for the intended audience?
-- Is the student substantially over or under time?
-- Does the student appropriately pace their presentation?
-- Does the student deliver their message with clarity and volume?
-- Are appropriate visualizations generated for the intended audience?
-- Are visualizations necessary and useful for supporting conclusions/explaining findings?
-
-In order to pass the project, students must earn a minimum score of 1 for each category.
-- Earning below a 1 in one or more of the above categories would result in a failing project.
-- While a minimum of 1 in each category is the required threshold for graduation, students should aim to earn at least an average of 1.5 across each category. An average score below 1.5, while it may be passing, means students may want to solicit specific feedback in order to significantly improve the project before showcasing it as part of a portfolio or the job search.
-
-### REMEMBER:
-
-This is a learning environment and you are encouraged to try new things, even if they don't work out as well as you planned! While this rubric outlines what we look for in a _good_ project, it is up to you to go above and beyond to create a _great_ project. **Learn from your failures and you'll be prepared to succeed in the workforce**.
+2. **Model Evaluation and Comparison**  
+   - **Test with Additional Datasets:** Test the model on new datasets or different splits to evaluate its robustness and ensure it can be generalized to real-world data.
+   - **Metric Analysis:** Expand the evaluation of the model by using additional metrics like Precision, Recall, or F1-Score for better insights into prediction quality. 
